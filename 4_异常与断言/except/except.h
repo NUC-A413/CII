@@ -44,7 +44,7 @@ enum
     Except_finalized
 };
 
-// 声明异常提出函数
+// 声明异常抛出函数
 void Except_raise(const T *e, const char *file, int line);
 
 // 简化异常抛出
