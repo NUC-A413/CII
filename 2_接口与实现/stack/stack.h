@@ -2,6 +2,7 @@
 #define STACK_INCLUDED
 
 #define T Stack_T
+
 typedef struct T *T;
 
 extern T Stack_new(void);

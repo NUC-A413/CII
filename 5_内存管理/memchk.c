@@ -16,7 +16,7 @@ union align
     float f;
     double d;
     long double ld;
-}
+};
 
 // 定义哈希算法计算方式
 #define hash(p, t) (((unsigned long)(p)>>3) & (sizeof (t)/sizeof ((t)[0])-1))
@@ -46,7 +46,7 @@ static struct descriptor
 } *htab[2048]; // 声明描述符散列
 
 // 定义空闲内存链表
-static struct descriptor freelist = {&freelist}
+static struct descriptor freelist = {&freelist};
 
 // 定义内部内存分配查找函数
 static struct descriptor *find(const void *ptr)

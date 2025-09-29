@@ -26,7 +26,7 @@ struct Except_Frame
     int line;
     // 异常
     const T *exception;
-}
+};
 
 // 简化写法
 typedef struct Except_Frame Except_Frame;
