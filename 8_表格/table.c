@@ -53,23 +53,23 @@ T Table_new(int hint, int cmp(const void *x, const void *y), unsigned hash(const
     int i;
     // 定义静态质数表
     static int primes[] =
-        {
-            509,
-            509,
-            1021,
-            2053,
-            4093,
-            8191,
-            16381,
-            32771,
-            65521,
-            INT_MAX};
+    {
+        509,
+        509,
+        1021,
+        2053,
+        4093,
+        8191,
+        16381,
+        32771,
+        65521,
+        INT_MAX
+    };
 
     // 判断假定数量是否合法
     assert(hint >= 0);
     // 在质数表中找到刚好大于假定数量的质数
-    for (i = 1; primes[i] < hint; i++)
-        ;
+    for(i = 1; primes[i] < hint; i++);
     // 分配内存空间，包括表头和稍小于所需的散列空间
     table = ALLOC(sizeof(*table) + primes[i - 1] * sizeof(table->buckets[0]));
     // 更新表格的大小
@@ -81,7 +81,7 @@ T Table_new(int hint, int cmp(const void *x, const void *y), unsigned hash(const
     // 更新表格内散列表
     table->buckets = (struct binding **)(table + 1);
     // 初始化散列表内容为空
-    for (i = 0; i < table->size; i++)
+    for(i = 0; i < table->size; i++)
         table->buckets[i] = NULL;
     // 更新表格的数量
     table->length = 0;
@@ -98,7 +98,7 @@ void Table_free(T *table)
     // 判断表格指针和表格是否合法
     assert(table && *table);
     // 判断表格内是否有内容
-    if ((*table)->length > 0)
+    if((*table)->length > 0)
     {
         // 声明计数变量
         int i;
@@ -106,9 +106,9 @@ void Table_free(T *table)
         struct binding *p, *q;
 
         // 遍历整个表格散列表
-        for (i = 0; i < (*table)->size; i++)
+        for(i = 0; i < (*table)->size; i++)
             // 遍历整条链表
-            for (p = (*table)->buckets[i]; p; p = q)
+            for(p = (*table)->buckets[i]; p; p = q)
             {
                 // 记录下一节点
                 q = p->link;
@@ -147,11 +147,11 @@ void *Table_put(T table, const void *key, void *value)
     // 计算哈希值作为存储位置
     i = (*table->hash)(key) % table->size;
     // 将链表节点结构体指针沿链表逐个比较，当出现键相同时停止
-    for (p = table->buckets[i]; p; p = p->link)
-        if ((*table->cmp)(key, p->key) == 0)
+    for(p = table->buckets[i]; p; p = p->link)
+        if((*table->cmp)(key, p->key) == 0)
             break;
     // 判断是否有相同键
-    if (p == NULL)
+    if(p == NULL)
     {
         // 分配内存空间
         NEW(p);
@@ -192,8 +192,8 @@ void *Table_get(T table, const void *key)
     // 计算哈希值作为存储位置
     i = (*table->hash)(key) % table->size;
     // 将链表节点结构体指针沿链表逐个比较，当出现键相同时停止
-    for (p = table->buckets[i]; p; p = p->link)
-        if ((*table->cmp)(key, p->key) == 0)
+    for(p = table->buckets[i]; p; p = p->link)
+        if((*table->cmp)(key, p->key) == 0)
             break;
 
     // 返回所需的值
@@ -217,8 +217,8 @@ void *Table_remove(T table, const void *key)
     // 计算哈希值作为存储位置
     i = (*table->hash)(key) % table->size;
     // 将链表节点结构体指针沿链表逐个比较，当出现键相同时停止
-    for (pp = &table->buckets[i]; *pp; pp = &(*pp)->link)
-        if ((*table->cmp)(key, (*pp)->key) == 0)
+    for(pp = &table->buckets[i]; *pp; pp = &(*pp)->link)
+        if((*table->cmp)(key, (*pp)->key) == 0)
         {
             // 定义链表节点结构体指针
             struct binding *p = *pp;
@@ -256,9 +256,9 @@ void Table_map(T table, void apply(const void *key, void **value, void *cl), voi
     // 记录当前时间戳
     stamp = table->timestamp;
     // 遍历整个散列表
-    for (i = 0; i < table->size; i++)
+    for(i = 0; i < table->size; i++)
         // 遍历整条链表
-        for (p = table->buckets[i]; p; p = p->link)
+        for(p = table->buckets[i]; p; p = p->link)
         {
             // 将各节点内键值对作为参数调用回调函数
             apply(p->key, &p->value, cl);
@@ -282,9 +282,9 @@ void **Table_toArray(T table, void *end)
     // 分配内存空间
     array = ALLOC((2 * table->length + 1) * sizeof(*array));
     // 遍历整个散列表
-    for (i = 0; i < table->size; i++)
+    for(i = 0; i < table->size; i++)
         // 遍历整条链表
-        for (p = table->buckets[i]; p; p = p->link)
+        for(p = table->buckets[i]; p; p = p->link)
         {
             // 偶数位存储键信息
             array[j++] = (void *)p->key;
