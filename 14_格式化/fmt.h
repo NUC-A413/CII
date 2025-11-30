@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "except.h"
 
+// 库内简化写法
 #define T Fmt_T
 
 // 声明格式化函数指针
