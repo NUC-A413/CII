@@ -41,7 +41,7 @@ extern int Str_many(const char *s, int i, int j, const char *set);
 extern int Str_rmany(const char *s, int i, int j, const char *set);
 // 声明低级字符串字符串头部匹配函数
 extern int Str_match(const char *s, int i, int j, const char *str);
-// 声明低级字符串字符串尾部集合存在函数
+// 声明低级字符串字符串尾部匹配函数
 extern int Str_rmatch(const char *s, int i, int j, const char *str);
 
 #endif

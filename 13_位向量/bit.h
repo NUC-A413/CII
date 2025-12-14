@@ -42,4 +42,5 @@ extern T Bit_minus(T s, T t);
 // 声明位向量对称差集函数
 extern T Bit_diff(T s, T t);
 
+#undef T
 #endif

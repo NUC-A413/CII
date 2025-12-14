@@ -18,7 +18,7 @@ const Except_T Arena_Failed = {"Arena Allocation Failed"};
 // 定义实存块表头结构体
 struct T
 {
-    // 该参数指向前置实存块
+    // 该参数指向前置存储块
     T prev;
     // 该参数指向前置存储块的第一个空闲位置
     char *avail;
@@ -55,7 +55,7 @@ static int nfree;
 T Arena_new(void)
 {
     // 定义内存池指针并分配其实存块表头的内存空间
-    T arena = malloc(sizeof (*arena));
+    T arena = malloc(sizeof(*arena));
 
     // 若分配失败，则抛出异常
     if(arena == NULL)
@@ -88,7 +88,7 @@ void *Arena_alloc(T arena, long nbytes, const char *file, int line)
     assert(arena);
     assert(nbytes > 0);
     // 将内存分配大小向上取整为大小约束共用体的整数倍
-    nbytes = ((nbytes + sizeof (union align) - 1)/(sizeof (union align)))*(sizeof (union align));
+    nbytes = ((nbytes + sizeof(union align) - 1) / (sizeof(union align))) * (sizeof(union align));
     // 循环判断当前实存块是否有足够大的内存空间
     while(nbytes > arena->limit - arena->avail)
     {
@@ -109,7 +109,7 @@ void *Arena_alloc(T arena, long nbytes, const char *file, int line)
         else
         {
             // 定义所需分配内存大小，这里由实存块头加实际需求量加冗余量计算得出
-            long m = sizeof (union header) + nbytes + 10*1024;
+            long m = sizeof(union header) + nbytes + 10 * 1024;
             // 分配内存空间
             ptr = malloc(m);
             // 判断是否分配成功，若为否，则抛出异常
@@ -147,9 +147,9 @@ void *Arena_calloc(T arena, long count, long nbytes, const char *file, int line)
     // 判断内存分配数量是否合法
     assert(count > 0);
     // 分配内存空间
-    ptr = Arena_alloc(arena, count*nbytes, file, line);
+    ptr = Arena_alloc(arena, count * nbytes, file, line);
     // 初始化内存空间内为全0
-    memset(ptr, "\0", count*nbytes);
+    memset(ptr, "\0", count * nbytes);
 
     // 返回内存指针
     return ptr;

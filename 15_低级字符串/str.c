@@ -182,7 +182,7 @@ char *Str_map(const char *s, int i, int j, const char *from, const char *to)
     {
         // 声明计数字符
         unsigned c;
-        // 沿字符映射表遍历，将对应位刷新为对应字符串
+        // 沿字符映射表遍历，将对应位更新为对应字符
         for(c = 0; c < sizeof map; c++)
             map[c] = c;
         // 遍历映射字符串，更新字符映射表
@@ -195,7 +195,7 @@ char *Str_map(const char *s, int i, int j, const char *from, const char *to)
     {
         // 判断映射字符串是否为空且原字符串是否存在
         assert(from == NULL && to == NULL && s);
-        // 利用非零字符判断第一次调用该函数时候映射字符串是否为空
+        // 利用非零字符判断是否为第一次调用该函数
         assert(map['a']);
     }
     if(s)
@@ -548,6 +548,7 @@ int Str_rmatch(const char *s, int i, int j, const char *str)
             // 返回匹配内容前面的位置值
             return j;
     }
+    // 若查找字符串包含多个字符
     else
         // 若与查找字符串末尾匹配
         if(j - len >= i && strncmp(&s[j - len], str, len) == 0)
