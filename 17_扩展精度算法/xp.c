@@ -9,7 +9,7 @@
 // 定义底数，取256作为底数可将完整数字转换为用字节存储的形式
 #define BASE (1<<8)
 
-// 定义字符转数字映射表
+// 定义静态字符转数字映射表
 static char map[] =
 {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
@@ -21,7 +21,7 @@ static char map[] =
     23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
 };
 
-// 定义进位加法函数
+// 定义扩展精度加法函数
 int XP_add(int n, T z, T x, T y, int carry)
 {
     // 声明计数变量
@@ -43,7 +43,7 @@ int XP_add(int n, T z, T x, T y, int carry)
     return carry;
 }
 
-// 定义借位减法函数
+// 定义扩展精度减法函数
 int XP_sub(int n, T z, T x, T y, int borrow)
 {
     // 声明计数变量
@@ -65,7 +65,7 @@ int XP_sub(int n, T z, T x, T y, int borrow)
     return borrow;
 }
 
-// 定义乘法函数
+// 定义扩展精度乘法函数
 int XP_mul(T z, int n, T x, int m, T y)
 {
     // 声明计数变量并定义进位输出项
@@ -104,7 +104,7 @@ int XP_mul(T z, int n, T x, int m, T y)
     return carryout;
 }
 
-// 定义除法函数
+// 定义扩展精度除法函数
 int XP_div(int n, T q, T x, int m, T y, T r, T tmp)
 {
     // 存储被除数和除数位数
@@ -221,7 +221,7 @@ int XP_div(int n, T q, T x, int m, T y, T r, T tmp)
     return 1;
 }
 
-// 定义一位加法函数
+// 定义扩展精度一位加法函数
 int XP_sum(int n, T z, T x, int y)
 {
     // 声明计数变量
@@ -242,7 +242,7 @@ int XP_sum(int n, T z, T x, int y)
     return y;
 }
 
-// 定义一位减法函数
+// 定义扩展精度一位减法函数
 int XP_diff(int n, T z, T x, int y)
 {
     // 声明计数变量
@@ -263,7 +263,7 @@ int XP_diff(int n, T z, T x, int y)
     return y;
 }
 
-// 定义一位乘法函数
+// 定义扩展精度一位乘法函数
 int XP_product(int n, T z, T x, int y)
 {
     // 声明计数变量
@@ -286,7 +286,7 @@ int XP_product(int n, T z, T x, int y)
     return carry;
 }
 
-// 定义一位除法函数
+// 定义扩展精度一位除法函数
 int XP_quotient(int n, T z, T x, int y)
 {
     // 声明计数变量
@@ -309,7 +309,7 @@ int XP_quotient(int n, T z, T x, int y)
     return carry;
 }
 
-// 定义取反取补函数
+// 定义扩展精度取反取补函数
 int XP_neg(int n, T z, T x, int carry)
 {
     // 声明计数变量
@@ -330,7 +330,7 @@ int XP_neg(int n, T z, T x, int carry)
     return carry;
 }
 
-// 定义比较函数
+// 定义扩展精度比较函数
 int XP_cmp(int n, T x, T y)
 {
     // 定义计数变量
@@ -344,7 +344,7 @@ int XP_cmp(int n, T x, T y)
     return x[i] - y[i];
 }
 
-// 定义左移函数
+// 定义扩展精度左移函数
 void XP_lshift(int n, T z, int m, T x, int s, int fill)
 {
     // 更新填充字节
@@ -384,7 +384,7 @@ void XP_lshift(int n, T z, int m, T x, int s, int fill)
     }
 }
 
-// 定义右移函数
+// 定义扩展精度右移函数
 void XP_rshift(int n, T z, int m, T x, int s, int fill)
 {
     // 更新填充字节
@@ -413,7 +413,7 @@ void XP_rshift(int n, T z, int m, T x, int s, int fill)
     }
 }
 
-// 定义数字位数函数
+// 定义扩展精度数字位数函数
 int XP_length(int n, T x)
 {
     // 计算有效数字个数，忽略引导0的数量
@@ -424,7 +424,7 @@ int XP_length(int n, T x)
     return n;
 }
 
-// 定义整型获取函数
+// 定义扩展精度整型获取函数
 unsigned long XP_fromint(int n, T z, unsigned long u)
 {
     // 定义计数变量
@@ -444,10 +444,10 @@ unsigned long XP_fromint(int n, T z, unsigned long u)
     return u;
 }
 
-// 定义整型表示函数
+// 定义扩展精度整型表示函数
 unsigned long XP_toint(int n, T x)
 {
-    // 声明存储变量
+    // 定义存储变量
     unsigned long u = 0;
     // 定义计数变量
     int i = (int)sizeof u;
@@ -463,7 +463,7 @@ unsigned long XP_toint(int n, T x)
     return u;
 }
 
-// 定义字符串获取函数
+// 定义扩展精度字符串获取函数
 int XP_fromstr(int n, T z, const char *str, int base, char **end)
 {
     // 定义字符指针记录字符串首字符地址
@@ -476,7 +476,7 @@ int XP_fromstr(int n, T z, const char *str, int base, char **end)
     // 忽略字符串最前面的空格
     while(*p && isspace(*p))
         p++;
-    // 判断当前字符是否存在，且是否为字符数字，且是否超过底数
+    // 判断当前字符是否存在，且是否为字母和数字，且是否超过底数
     if(*p && isalnum(*p) && map[*p - '0'] < base)
     {
         // 声明进位项
@@ -507,12 +507,12 @@ int XP_fromstr(int n, T z, const char *str, int base, char **end)
         if(end)
             *end = (char *)str;
 
-        // 返回失败标志
+        // 返回结束标志
         return 0;
     }
 }
 
-// 定义字符串表示函数
+// 定义扩展精度字符串表示函数
 char *XP_tostr(char *str, int size, int base, int n, T x)
 {
     // 定义计数变量
